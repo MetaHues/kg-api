@@ -36,7 +36,5 @@ app.get('/', (req, res) => {
     } else { //no token sent
         res.send('Error no token attached!');        
     }
-
-    
 });
 
