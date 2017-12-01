@@ -31,7 +31,7 @@
 					}
                     var oReq = new XMLHttpRequest();
 					oReq.addEventListener("load", reqListener);
-					oReq.open("GET", "https://localhost:3000");
+					oReq.open("GET", "http://localhost:3000");
                     oReq.setRequestHeader("Authorization", idToken);
                     //oReq.setRequestHeader("Nope", "yup");
                     oReq.send();
