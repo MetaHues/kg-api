@@ -1,12 +1,12 @@
 # KittyGlitter
 The main app in which users will find foster-parents for kitties with glitter on them
 
-#H1 FireBaseClient Setup
-#H2 Install FireBase Tools https://github.com/firebase/firebase-tools
+## FireBaseClient Setup
+### Install FireBase Tools https://github.com/firebase/firebase-tools
 ```
 npm install -g firebase-tools
 ```
-#H2 Login to Firebase
+### Login to Firebase
 From the commandline inside ~/FireBaseClient/ from terminal/powershell
 ```
 firebase login
@@ -16,18 +16,18 @@ Follow instructions to:
 1) Login with with your account
 2) Set project to 'KittyGlitter'
 
-#H2 Serve client locally
+### Serve client locally
 This has not been tested (may need to do firebase init -hosting)
 ```
 firebase serve -p 4761
 ```
 
-#H1 Backend Setup
-#H2 Install Packages
+## Backend Setup
+### Install Packages
 ```
 npm install
 ```
-#H2 Start Express Server
+### Start Express Server
 ```
 node index.js
 ```
