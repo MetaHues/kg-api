@@ -18,8 +18,16 @@ Follow instructions to:
 
 #H2 Serve client locally
 This has not been tested (may need to do firebase init -hosting)
-'''
+```
 firebase serve -p 4761
 ```
 
-
+#H1 Backend Setup
+#H2 Install Packages
+```
+npm install
+```
+#H2 Start Express Server
+```
+node index.js
+```
