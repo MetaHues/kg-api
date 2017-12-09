@@ -17,7 +17,6 @@ Follow instructions to:
 2) Set project to 'KittyGlitter'
 
 ### Serve client locally
-This has not been tested (may need to do firebase init -hosting)
 ```
 firebase serve -p 4761
 ```
