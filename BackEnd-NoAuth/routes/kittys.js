@@ -1,7 +1,4 @@
 const router = require('express').Router()
-const mongoose = require('mongoose')
-
-mongoose.connect('mongodb://localhost/kittyglitter')
 
 router.get('/', (req, res) => {
     res.send('hello world')
