@@ -1,19 +1,13 @@
 const express = require('express')
+const mongoose = require('mongoose')
 
 const app = express()
 
-const mongoose = require('mongoose')
+// connect local DB
+mongoose.connect('mongodb://localhost/kg')
 
-mongoose.connect('mongodb://localhost/KG', (err) => {
-    if(err) {
-        console.log(err)
-    } else {
-        console.log('Successfully connected to mongodb KG')
-    }
-})
-
-const kitty = require('./routes/kittys')
-app.use('/kittys', kitty)
+const kittys = require('./routes/kittys')
+app.use('/kittys', kittys)
 
 app.listen('3000', () => {
     console.log('Server started on port 3000')
