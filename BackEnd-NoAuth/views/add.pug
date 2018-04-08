@@ -1,0 +1,12 @@
+html
+    head
+        title Pretty Kitty
+    
+    body
+        h1 Add your beautiful kitty!
+        form(method='post' action='/kitties')
+            input(type='text' placeholder='Name' name='KittyName')
+            input(type='text' placeholder='Image Url' name='KittyImg')
+            input(type='text' placeholder='Color' name='KittyColor')
+            button(type='submit') Submit
+    
