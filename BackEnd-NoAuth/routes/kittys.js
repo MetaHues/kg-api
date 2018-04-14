@@ -2,21 +2,27 @@ const mongoose = require('mongoose')
 const router = require('express').Router()
 
 // import model
-const Kitty = require('../models/kittys')
+const Kittys = require('../models/kittys')
 
-// Kitty.find({})
-// .then((k)=>{console.log(k)})
-// .catch((err)=>{console.log("error " + err)})
-
+/**
+ * 
+ */
 router.get('/', (req, res) => {
-    res.render('kittys')
+    Kittys.find({}, function (err, docs) {
+        if(err){
+            res.status(400).send(err);
+        }
+        res.status(200).send(docs)
+      });
 })
 
 router.post('/', (req, res) => {
-    console.log(req.body.name)
-    console.log(req.body.img)
-    console.log(req.body.color)
-    res.send(req.body);
+    console.debug(req.body);
+    Kittys.create(req.body).then((data)=>{
+        res.send(data);
+    }).catch(err=>{
+        log.info({err})
+    })
 })
 
 module.exports = router

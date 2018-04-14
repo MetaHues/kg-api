@@ -1,5 +1,11 @@
 # KittyGlitter
 The main app in which users will find foster-parents for kitties with glitter on them
+## Dev setup
+### Install Docker
+### Use VSCode
+#### Use Cmder for windows
+Update your VSCode user settings to use cmder as integrated terminal
+"terminal.integrated.shell.windows": "C:\\WINDOWS\\sysnative\\cmd.exe", "terminal.integrated.shellArgs.windows" : ["/K","C:\\cmder\\vendor\\init.bat"]
 
 ## FireBaseClient Setup
 ### Install FireBase Tools https://github.com/firebase/firebase-tools
