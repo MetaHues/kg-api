@@ -1,4 +1,7 @@
-*/kittyglitter.json
-*/out.txt
-*/node_modules
+/kittyglitter.json
+/out.txt
+/node_modules
 FireBaseClient/img/*`
+
+# VSCode project files
+.vscode
