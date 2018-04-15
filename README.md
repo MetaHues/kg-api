@@ -10,7 +10,10 @@ https://www.docker.com/community-edition
 Update your VSCode user settings to use cmder as integrated terminal
 "terminal.integrated.shell.windows": "C:\\WINDOWS\\sysnative\\cmd.exe", "terminal.integrated.shellArgs.windows" : ["/K","C:\\cmder\\vendor\\init.bat"]
 ### Install git
-#### set-up your git config 
+#### set-up your ssh-agent
+Set-up your git with ssh, so that you don't have to enter the credentials all the time https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
+
+#### set-up your git config
 Find where the git config files are and update them accordingly `git config --list --show-origin`
 
 ## FireBaseClient Setup
