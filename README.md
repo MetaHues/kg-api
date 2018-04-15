@@ -2,6 +2,9 @@
 The main app in which users will find foster-parents for kitties with glitter on them
 ## Dev setup
 ### Install Docker
+https://www.docker.com/community-edition
+- you might have to enable virtualization in BIOS
+
 ### Use VSCode
 #### Use Cmder for windows
 Update your VSCode user settings to use cmder as integrated terminal
