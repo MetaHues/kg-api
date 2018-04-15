@@ -2,27 +2,38 @@ const mongoose = require('mongoose')
 const router = require('express').Router()
 
 // import model
-const Kittys = require('../models/kittys')
+const Kitty = require('../models/KittyModel')
 
-/**
- * 
- */
+// api get kitties ( all kitties right now )
 router.get('/', (req, res) => {
-    Kittys.find({}, function (err, docs) {
-        if(err){
-            res.status(400).send(err);
-        }
-        res.status(200).send(docs)
-      });
+    Kitty.find({})
+    .then(k => {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(k))
+    })
+    .catch(err => {
+        console.log("error " + err)
+    })
 })
 
 router.post('/', (req, res) => {
-    console.debug(req.body);
-    Kittys.create(req.body).then((data)=>{
-        res.send(data);
-    }).catch(err=>{
-        log.info({err})
-    })
+    console.log(req.body)
+    
+    let newKitty = new Kitty(req.body);
+
+    newKitty
+        .save()
+        .then(() => {
+            res.send('success')
+        })
+        .catch(() => {
+            res.send('error')
+        })
+})
+
+// temp page to update kitties
+router.get('/add', (req, res) => {
+    res.render('add')
 })
 
 module.exports = router
