@@ -3,6 +3,8 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const log = require('./utilities').log;
 
+const PORT = process.env.PORT || 80
+
 const app = express()
 
 // set viewengine
@@ -17,17 +19,8 @@ const kittys = require('./routes/kittys')
 app.use('/kittys', kittys)
 
 // connect local DB
-mongoose.connect('mongodb://localhost/kg').then(()=>{
-    return new Promise((resolve,reject)=>{
-        const PORT = process.env.PORT || 3000
-        app.listen(PORT, (err)=>{
-            if(err){
-                reject(err)
-            }
-            resolve(`Server started on port ${PORT}`);
-        })
-    })
-})
-.catch(err=>{
-    log.info({err})
-})
+mongoose.connect('mongodb://localhost/kg').then(
+    app.listen(PORT, console.log(`Server started on port ${PORT}`))
+    .on('error', err => log.info(err))
+)
+.catch(err => log.info(err))

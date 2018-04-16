@@ -11,3 +11,4 @@ const KittySchema = new Schema({
 module.exports = mongoose.model('Kittys', KittySchema)
 
 // no export required, is connected through singleton mongoose
+// if exported this way then model can be retrieved through import
