@@ -15,6 +15,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
+app.use(express.static('public'))
+
+app.get('/', (req, res) => {
+    res.render('login')
+})
+
 const kittys = require('./routes/kittys')
 app.use('/kittys', kittys)
 
