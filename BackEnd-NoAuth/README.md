@@ -21,8 +21,12 @@ docker-compose up --build
 node index.js
 ```
 
-### Run DBB Tests
+### Run BDD Tests
 With the service running on "http://localhost:3000", run
 ```shell
 npm test
 ```
+
+### Test with Postman
+Open postman and import the collection `./KittyGlitter/BackEnd-NoAuth/metahues-kittyglitter-backend-noauth.postman_collection.json`
+Have fun!
