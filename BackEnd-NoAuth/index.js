@@ -7,6 +7,8 @@ const config = require('config'); //https://www.npmjs.com/package/config
 // assign port based on config/environment varible
 const PORT = process.env.PORT || 3000
 
+// TODO: implement CORS https://github.com/expressjs/cors
+// TODO: implmenet CSRF https://www.npmjs.com/package/csurf
 const app = express()
 
 // set viewengine

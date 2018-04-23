@@ -2,7 +2,9 @@
 
 ## How to develop
 
-Read this https://expressjs.com/en/advanced/best-practice-performance.html
+Read these: 
+https://expressjs.com/en/advanced/best-practice-security.html
+https://expressjs.com/en/advanced/best-practice-performance.html
 
 ### Install Docker
 
