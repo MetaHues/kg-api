@@ -1,0 +1,57 @@
+{
+	"info": {
+		"_postman_id": "a69bf070-a647-4f39-a82c-2767fad61e7f",
+		"name": "metahues-kittyglitter-backend-noauth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "kittys",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:3000/kittys",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"kittys"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "kittys",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"owner\": \"12345\",\n\t\"name\": \"Mars\",\n\t\"breed\": \"Brat\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:3000/kittys",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"kittys"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
