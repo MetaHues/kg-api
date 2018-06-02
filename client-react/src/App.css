@@ -1,28 +1,76 @@
-.App {
-  text-align: center;
+* {
+  padding: 0;
+  margin: 0;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+body {
+  background-color: #fafafa;
+  font-size: 14px;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+/*START Kitty Card */
+.kard {
+  background-color: #fff;
+  width: 600px;
+  margin:0 auto;
+  border: 1px solid #efefef;
+  border-radius: 3px;
 }
 
-.App-title {
-  font-size: 1.5em;
+/*START Iconic */
+.section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 16px;
 }
 
-.App-intro {
-  font-size: large;
+.section.like_info {
+  padding: 0 16px;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.kitty_name,
+.comment_button
+{
+  margin-left: 16px;
+}
+
+
+.option_button,
+.bookmark_button {
+  margin-left: auto;
+}
+
+.interactions img,
+.header img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+/*END Iconic */
+
+/*START Media */
+.media img,
+.media video {
+  width: 600px;
+  height: 600px;
+}
+
+video {
+  object-fit: fill;
+}
+
+li {
+  list-style: none;
+  margin: 8px 0;
+}
+li:first {
+  margin-top: 0;
+}
+li:last {
+  margin-bottom: 0;
+}
+
+.comment_area input {
+  flex: 1;
 }
