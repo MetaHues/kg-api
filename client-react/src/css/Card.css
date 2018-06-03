@@ -41,7 +41,14 @@ body {
   margin-left: auto;
 }
 
-.interactions img,
+.interactions a{
+  text-align: center;
+}
+
+.interactions i {
+  font-size: 20px;
+}
+
 .header img {
   width: 40px;
   height: 40px;

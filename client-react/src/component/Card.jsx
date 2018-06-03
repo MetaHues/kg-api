@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import logo from '../logo/logo.svg';
+import '../css/Card.css';
 
-class App extends Component {
+class Card extends Component {
   render() {
-    //let kitty = this.props.kitty;
     return (
-      <div className="App">
         <article className="kard">
           <div className="section header">
-            <img src="" alt="" srcset=""/>
+            <img src="https://placekitten.com/500/500" alt="" srcset=""/>
             <div className="kitty_name"><strong>SampleKitty</strong></div>
             <div className="option_button">...</div>
           </div>
@@ -19,11 +17,9 @@ class App extends Component {
             </video>
           </div>
           <div className="section interactions">
-            <div className="like_button">
-              <img src="/img/grumpy_kitty.png" alt=""/>
-            </div>
-            <div className="comment_button">Comment</div>
-            <div className="bookmark_button">Bookmark</div>
+            <a className="like_button"><i className="fa fa-heart-o"/></a>
+            <a className="comment_button"><i className="fa fa-diamond"/></a>
+            <a className="bookmark_button"><i className="fa fa-bookmark-o"/></a>
           </div>
           <div className="section like_info">
             <p>69 Grumpys</p>
@@ -41,9 +37,8 @@ class App extends Component {
             <button>...</button>
           </div>
         </article>
-      </div>      
     );
   }
 }
 
-export default App;
+export default Card;
