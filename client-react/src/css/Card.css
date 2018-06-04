@@ -67,6 +67,8 @@ video {
   object-fit: fill;
 }
 
+
+/* comment section */
 li {
   list-style: none;
   margin: 8px 0;
@@ -78,6 +80,27 @@ li:last {
   margin-bottom: 0;
 }
 
+.comment_area {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border-top: 1px solid #efefef;
+}
+
 .comment_area input {
   flex: 1;
+  border: none;
+}
+
+.comment_area i {
+  font-size: 13px;
+  padding: 0 5px;
+}
+
+.time_posted {
+  color: #8e8e8e;
+}
+
+input, select, textarea, button{
+  font-family: inherit;
+  font-size: inherit;
 }
