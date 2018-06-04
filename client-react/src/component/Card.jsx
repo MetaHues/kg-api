@@ -26,7 +26,7 @@ class Card extends Component {
           </div>
           <div className="section comments">
             <ol>
-              <li><strong>Boom:</strong> This is a kitty, there are many like it, but this is mine. My kitty is my best friend. It is my life. I must master it as I must master my life. My kitty, without me, is useless. Without my kitty, I am useless. </li>
+              <li><strong>Boom:</strong>This is a kitty, there are many like it, but this is mine. My kitty is my best friend. It is my life. I must master it as I must master my life. My kitty, without me, is useless. Without my kitty, I am useless.</li>
               <li><strong>Other1:</strong> comment 1</li>
               <li><strong>Other2:</strong> comment 2</li>
             </ol>
