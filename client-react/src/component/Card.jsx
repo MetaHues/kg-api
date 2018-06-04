@@ -4,11 +4,16 @@ import '../css/Card.css';
 
 class Card extends Component {
   render() {
+    let rows = []
+    this.props.post.comments.forEach((comment) => {
+        rows.push(<li><strong>{comment.userName}: </strong>{comment.text}</li>)
+    })
+
     return (
         <article className="kard">
           <div className="section header">
-            <img src="https://placekitten.com/500/500" alt="" srcset=""/>
-            <div className="kitty_name"><strong>SampleKitty</strong></div>
+            <img src={this.props.kitty.profileImg} alt="" srcset=""/>
+            <div className="kitty_name"><strong>{this.props.kitty.name}</strong></div>
             <div className="option_button">...</div>
           </div>
           <div className="media">
@@ -26,9 +31,8 @@ class Card extends Component {
           </div>
           <div className="section comments">
             <ol>
-              <li><strong>Boom:</strong>This is a kitty, there are many like it, but this is mine. My kitty is my best friend. It is my life. I must master it as I must master my life. My kitty, without me, is useless. Without my kitty, I am useless.</li>
-              <li><strong>Other1:</strong> comment 1</li>
-              <li><strong>Other2:</strong> comment 2</li>
+                <li><strong>{this.props.kitty.name}: </strong>{this.props.post.postText}</li>
+                {rows}
             </ol>
           </div>
           <div className="section time_posted">69hours and 69mins ago</div>
