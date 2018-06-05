@@ -16,24 +16,14 @@ Set-up your git with ssh, so that you don't have to enter the credentials all th
 #### set-up your git config
 Find where the git config files are and update them accordingly `git config --list --show-origin`
 
-## FireBaseClient Setup
-### Install FireBase Tools https://github.com/firebase/firebase-tools
+## Client-React Setup
+### Install Packages
 ```
-npm install -g firebase-tools
+npm install
 ```
-### Login to Firebase
-From the commandline inside ~/FireBaseClient/ from terminal/powershell
+or
 ```
-firebase login
-```
-
-Follow instructions to:
-1) Login with with your account
-2) Set project to 'KittyGlitter'
-
-### Serve client locally
-```
-firebase serve -p 4761
+yarn install
 ```
 
 ## Backend Setup
