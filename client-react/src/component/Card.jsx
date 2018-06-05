@@ -14,7 +14,6 @@ class Card extends Component {
           <div className="section header">
             <img src={this.props.kitty.profileImg} alt="" srcset=""/>
             <div className="kitty_name"><strong>{this.props.kitty.name}</strong></div>
-            <div className="option_button">...</div>
           </div>
           <div className="media">
             <video preload='auto' autoplay='autoplay' loop='loop'>

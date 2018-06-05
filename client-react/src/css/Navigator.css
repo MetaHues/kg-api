@@ -1,0 +1,78 @@
+a:link {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+}
+
+a:visited {
+    text-decoration: inherit;
+    color: inherit;
+    cursor: auto;
+}
+
+nav {
+    display: flex;
+    height: 75px;
+    background-color: #fff;
+    margin-bottom: 50px;
+    border-bottom: 1px solid #efefef;
+    font-size: 24px;
+}
+
+nav > div {
+    display: flex;
+    align-items: center;
+}
+
+ul {
+    display: flex;
+}
+
+ul > a {
+    margin-left: 40px;
+}
+
+.logo {
+    margin-left: 40px;
+    margin-right: auto;
+}
+
+.subnav {
+    margin-left: auto;
+    margin-right: 40px;
+}
+
+.search i {
+    font-size: 14px;
+    margin-right: 4px;
+    color: #a9a9a9;
+    padding-bottom: 2px;
+}
+
+.form-control::-moz-placeholder{
+    color:#a9a9a9;
+    opacity:1;
+}
+
+.form-control:-ms-input-placeholder{
+    color:#a9a9a9;
+}
+
+.form-control::-webkit-input-placeholder{
+    color:#a9a9a9;
+}
+
+.searchBoarder {
+    border: solid 1px #efefef;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+}
+
+input {
+    outline: none;
+    text-decoration: inherit;
+    border: none;
+    font-size: 14px;
+}
+
