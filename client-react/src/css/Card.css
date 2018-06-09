@@ -1,0 +1,111 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background-color: #fafafa;
+  font-size: 14px;
+}
+
+/*START Kitty Card */
+.kard {
+  background-color: #fff;
+  width: 600px;
+  margin:0 auto;
+  border: 1px solid #efefef;
+  border-radius: 3px;
+}
+
+/*START Iconic */
+.section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 16px;
+}
+
+.section.header {
+  padding: 16px;
+}
+
+.section.like_info {
+  padding: 0 16px;
+}
+
+.kitty_name,
+.comment_button
+{
+  margin-left: 16px;
+}
+
+
+.option_button,
+.bookmark_button {
+  margin-left: auto;
+}
+
+.interactions a{
+  text-align: center;
+}
+
+.interactions i {
+  font-size: 20px;
+}
+
+.header img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: solid 1.2px black;
+}
+/*END Iconic */
+
+/*START Media */
+.media img,
+.media video {
+  width: 600px;
+  height: 600px;
+}
+
+video {
+  object-fit: fill;
+}
+
+
+/* comment section */
+li {
+  list-style: none;
+  margin: 8px 0;
+}
+li:first {
+  margin-top: 0;
+}
+li:last {
+  margin-bottom: 0;
+}
+
+.comment_area {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border-top: 1px solid #efefef;
+}
+
+.comment_area input {
+  flex: 1;
+  border: none;
+}
+
+.comment_area i {
+  font-size: 13px;
+  padding: 0 5px;
+}
+
+.time_posted {
+  color: #8e8e8e;
+}
+
+input, select, textarea, button{
+  font-family: inherit;
+  font-size: inherit;
+}
