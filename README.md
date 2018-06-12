@@ -1,6 +1,9 @@
 # KittyGlitter
 The main app in which users will find foster-parents for kitties with glitter on them
+
 ## Dev setup
+Assumptions Yarn, Node and Git are installed
+
 ### Install Docker
 https://www.docker.com/community-edition
 - you might have to enable virtualization in BIOS
@@ -15,7 +18,6 @@ Set-up your git with ssh, so that you don't have to enter the credentials all th
 
 #### set-up your git config
 Find where the git config files are and update them accordingly `git config --list --show-origin`
-
 
 
 ## Backend Setup
