@@ -16,22 +16,15 @@ Set-up your git with ssh, so that you don't have to enter the credentials all th
 #### set-up your git config
 Find where the git config files are and update them accordingly `git config --list --show-origin`
 
-## Client-React Setup
-### Install Packages
-```
-npm install
-```
-or
-```
-yarn install
-```
+
 
 ## Backend Setup
 ### Install Packages
 ```
-npm install
+yarn
 ```
+
 ### Start Express Server
 ```
-node index.js
+yarn start
 ```
