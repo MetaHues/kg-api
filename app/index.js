@@ -11,10 +11,6 @@ const PORT = process.env.PORT || 3000
 // TODO: implmenet CSRF https://www.npmjs.com/package/csurf
 const app = express()
 
-// set viewengine
-// ? TODO: remove view engine from the express app. The view should be handled by a separate app (unless we decide to do server-side ...)
-app.set('view engine', 'pug')
-
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
@@ -22,13 +18,12 @@ app.use(bodyParser.json())
 
 app.use(express.static('public'))
 
-app.get('/', (req, res) => {
-    res.render('login')
-})
-
 // TODO: rename the routes https://restfulapi.net/resource-naming/
-const kittys = require('./routes/kittys')
-app.use('/kittys', kittys)
+const User = require('./routes/User')
+app.use('/User', User)
+
+const Post = require('./routes/Post')
+app.use('/Post', Post)
 
 // connect local DB with credentials
 // TODO: DB credentials should come from environment variables

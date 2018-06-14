@@ -1,12 +1,12 @@
 {
-  "name": "BackEnd-NoAuth",
+  "name": "kg-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/_mocha --reporter spec ./tests/**/*.js",
     "start": "node index.js",
-    "dev": "nodemon index.js",
+    "dev": "PORT='5000' nodemon index.js",
     "localhost": "docker-compose up --build"
   },
   "keywords": [],

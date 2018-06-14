@@ -1,13 +1,16 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
- 
+var Schema = mongoose.Schema,
+    ObjectId = Schema.ObjectId
+
 // create schema
 const UserSchema = new Schema({
     name: String,
     img: String,
-    role: String
+    profileImg: String,
+    posts: [ObjectId],
+    friends: [ObjectId]
 })
 
-module.exports = mongoose.model('Users', UserSchema)
+module.exports = mongoose.model('user', UserSchema)
 
 // no export required, is connected through singleton mongoose
