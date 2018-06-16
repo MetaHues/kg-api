@@ -7,9 +7,16 @@ const config = require('config'); //https://www.npmjs.com/package/config
 // assign port based on config/environment varible
 const PORT = process.env.PORT || 3000
 
-// TODO: implement CORS https://github.com/expressjs/cors
 // TODO: implmenet CSRF https://www.npmjs.com/package/csurf
 const app = express()
+
+// CORS
+// TODO: implement cors for deployment
+app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3001")
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next()
+})
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))

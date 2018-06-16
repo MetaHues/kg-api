@@ -4,7 +4,9 @@ const ObjectId = Schema.Types.ObjectId
 
 const PostSchema = new Schema({
     userId: ObjectId,
+    postText: String,
     mediaUrl: String,
+    likes: Number,
     comments: [{user: ObjectId, comment: String}]
 })
 
