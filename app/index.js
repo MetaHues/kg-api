@@ -1,8 +1,9 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
-const log = require('./utilities').log;
-const config = require('config'); //https://www.npmjs.com/package/config
+const log = require('./utilities').log
+// const config = require('config'); //https://www.npmjs.com/package/config
+const config = require('./config/default')
 
 // assign port based on config/environment varible
 const PORT = process.env.PORT || 3000
@@ -33,11 +34,10 @@ const Post = require('./routes/Post')
 app.use('/Post', Post)
 
 // connect DB with credentials
-const db = 'db.localUri'
-if (process.env.NODE_ENV === 'production') db = 'db.serverUri'
-const connectionString = config.get(db)
+const uri = config.db.localUri
+if (process.env.NODE_ENV === 'production') uri = config.db.serverUri
 
-mongoose.connect(connectionString).then(
+mongoose.connect(uri).then(
     app.listen(PORT, console.log(`Server started on port ${PORT}`))
     .on('error', err => log.info(err))
 )
