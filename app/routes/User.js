@@ -16,19 +16,27 @@ router.get('/', (req, res) => {
     })
 })
 
-router.post('/', (req, res) => {
-    console.log(req.body)
-    
-    let newUser = new User(req.body);
+router.get('/:userId', (req, res) => {
+    User.findById(req.params.userId)
+    .then(theUser => {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify(theUser))
+    })
+    .catch(err => {
+        console.log("error " + err)
+    })
+})
 
+router.post('/', (req, res) => {
+    let newUser = new User(req.body);
     newUser
-        .save()
-        .then(() => {
-            res.send('success')
-        })
-        .catch(() => {
-            res.send('error')
-        })
+    .save()
+    .then(() => {
+        res.send('success')
+    })
+    .catch(() => {
+        res.send('error')
+    })
 })
 
 // temp page to update kitties

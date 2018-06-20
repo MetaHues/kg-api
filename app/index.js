@@ -32,9 +32,11 @@ app.use('/User', User)
 const Post = require('./routes/Post')
 app.use('/Post', Post)
 
-// connect local DB with credentials
-// TODO: DB credentials should come from environment variables
-const connectionString = config.get('db.connectionString');
+// connect DB with credentials
+const db = 'db.localUri'
+if (process.env.NODE_ENV === 'production') db = 'db.serverUri'
+const connectionString = config.get(db)
+
 mongoose.connect(connectionString).then(
     app.listen(PORT, console.log(`Server started on port ${PORT}`))
     .on('error', err => log.info(err))
