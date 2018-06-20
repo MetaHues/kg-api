@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/.bin/_mocha --reporter spec ./tests/**/*.js",
-    "start": "node ./app/index.js",
+    "start": "node ./src/index.js",
     "dev": "PORT='5000' nodemon index.js",
     "localhost": "docker-compose up --build"
   },

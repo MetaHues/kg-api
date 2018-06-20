@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const log = require('./utilities').log
+// temp fix :S broke errthing
 // const config = require('config'); //https://www.npmjs.com/package/config
 const config = require('./config/default')
 
@@ -14,6 +15,7 @@ const app = express()
 // CORS
 // TODO: implement cors for deployment
 app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "https://kg-client.herokuapp.com/")
     res.header("Access-Control-Allow-Origin", "http://localhost:3001")
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next()
@@ -34,9 +36,9 @@ const Post = require('./routes/Post')
 app.use('/Post', Post)
 
 // connect DB with credentials
-const uri = config.db.localUri
+let uri = config.db.localUri
 if (process.env.NODE_ENV === 'production') uri = config.db.serverUri
-
+console.log(uri)
 mongoose.connect(uri).then(
     app.listen(PORT, console.log(`Server started on port ${PORT}`))
     .on('error', err => log.info(err))
