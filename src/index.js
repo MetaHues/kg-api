@@ -15,10 +15,7 @@ const app = express()
 // CORSc
 // TODO: implement cors for deployment
 app.use(function(req, res, next) {
-    let httpOrigin = "https://kg-client.herokuapp.com"
-    if(typeof process.env.NODE_ENV === 'development') httpOrigin = "http://localhost:5000"
-
-    res.header("Access-Control-Allow-Origin", httpOrigin)
+    res.header("Access-Control-Allow-Origin", '*')
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next()
 })
