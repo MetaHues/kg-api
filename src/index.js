@@ -13,8 +13,8 @@ const PORT = process.env.PORT || 3000
 // TODO: implmenet CSRF https://www.npmjs.com/package/csurf
 const app = express()
 
-// CORSc
-// TODO: implement cors for deployment
+// CORS
+// TODO: set explicit allowed URL's in config
 app.use(cors())
 
 // parse application/x-www-form-urlencoded
