@@ -6,6 +6,7 @@
   "scripts": {
     "test": "./node_modules/.bin/_mocha --reporter spec ./tests/**/*.js",
     "start": "node ./src/index.js",
+    "start:win": "set NODE_ENV=production&&node ./src/index.js",
     "dev": "nodemon ./src/index.js",
     "localhost": "docker-compose up --build"
   },
@@ -19,6 +20,7 @@
     "config": "^1.30.0",
     "cors": "^2.8.4",
     "express": "^4.16.3",
+    "express-session": "^1.15.6",
     "mongoose": "^5.0.12",
     "morgan": "^1.9.0",
     "passport": "^0.4.0",

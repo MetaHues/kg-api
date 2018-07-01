@@ -17,26 +17,26 @@ const UserSchema = new Schema({
     posts: [ObjectId],
     friends: [ObjectId]
 })
+User = mongoose.model('user', UserSchema)
 
 //serialize user?
 passport.serializeUser((user, done) => {
     console.log('serializing')
     console.log(user)
-    done(null, user._id)
+    done(null, user.facebook.id)
 })
 
 passport.deserializeUser((id, done) => {
-    User.findById(id)
-    .then(user => {
-        console.log('deserializing')
-        console.log(user)
-        done(null, user)
+    console.log('deserializing')
+    console.log(id)
+    User.findOne({'facebook.id': id})
+    .then(existingUser => {
+        console.log(existingUser)
+        done(null, existingUser)
     })
     .catch(err => {
         done(err)
     })
 })
 
-module.exports = mongoose.model('user', UserSchema)
-
-// no export required, is connected through singleton mongoose
+module.exports = User
