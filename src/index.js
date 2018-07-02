@@ -56,9 +56,6 @@ passport.use(new FacebookStrategy({
 // assign port based on config/environment varible
 const PORT = process.env.PORT || 5000
 
-// TODO: implmenet CSRF https://www.npmjs.com/package/csurf
-const app = express()
-
 // Passport and session setup
 // TODO: set in environmental variable not visible
 let uri = config.db.localUri
@@ -67,6 +64,11 @@ if (process.env.NODE_ENV === 'production') uri = config.db.serverUri
 mongoose.connect(uri)
 .then(console.log(`Connected to Mongoose @ ${uri}`))
 .catch(err => log.info(err))
+
+const app = express()
+
+// CORS
+app.use(cors())
 
 const options = {
     name: 'kg-api',
@@ -82,10 +84,6 @@ app.use(session(options))
 app.use(passport.initialize())
 app.use(passport.session())
 
-// CORS
-// TODO: set explicit allowed URL's in config
-app.use(cors())
-
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
@@ -95,14 +93,20 @@ app.use(express.static('public'))
                                       
 // TODO: rename the routes https://restfulapi.net/resource-naming/
 const UserRoute = require('./routes/User')
-app.use('/User', 
-        passport.authenticate('facebook', {failureRedirect: 'http://localhost:3000/login'}),
-        UserRoute)
+app.use('/User', UserRoute)
 
 const PostRoute = require('./routes/Post')
-app.use('/Post', 
-        passport.authenticate('facebook', {failureRedirect: 'http://localhost:3000/login'}), 
-        PostRoute)
+app.use('/Post', PostRoute)
+
+app.get('/me', (req, res) => {
+    console.log('in me')
+    if(!req.isAuthenticated()) {
+        console.log('redirectiong')
+        res.redirect('/auth/facebook')
+    }
+    console.log(req.user)
+    res.json(req.user)
+})
 
 // Redirect the user to Facebook for authentication.  When complete,
 // Facebook will redirect the user back to the application at
@@ -113,8 +117,9 @@ app.get('/auth/facebook', passport.authenticate('facebook'));
 // access was granted, the user will be logged in.  Otherwise,
 // authentication has failed.
 app.get('/auth/facebook/callback', 
-        passport.authenticate('facebook', { successRedirect: 'http://localhost:3000', failureRedirect: 'http://localhost:3000/login' }));
+        passport.authenticate('facebook', { successRedirect: 'https://metahues-kg-api.herokuapp.com/me', failureRedirect: 'http://localhost:3000/login' }));
 
+// TODO: ensure this is working
 app.get('/logout', function(req, res){
     console.log('loggingout')
     console.log(req.user)
