@@ -1,5 +1,6 @@
 const express = require('express')
 const session = require('express-session')
+const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const log = require('./utilities').log
@@ -60,7 +61,24 @@ const app = express()
 
 // Passport and session setup
 // TODO: set in environmental variable not visible
-app.use(session({secret: 'temp', resave: false, saveUninitialized: false}))
+let uri = config.db.localUri
+if (process.env.NODE_ENV === 'production') uri = config.db.serverUri
+// connect DB with credentials
+mongoose.connect(uri)
+.then(console.log(`Connected to Mongoose @ ${uri}`))
+.catch(err => log.info(err))
+
+const options = {
+    name: 'kg-api',
+    secret: 'temp', 
+    resave: false, 
+    saveUninitialized: false,
+    store: new MongoStore({ 
+        mongooseConnection: mongoose.connection,
+        retryWrites: false
+    })
+}
+app.use(session(options))
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -78,12 +96,12 @@ app.use(express.static('public'))
 // TODO: rename the routes https://restfulapi.net/resource-naming/
 const UserRoute = require('./routes/User')
 app.use('/User', 
-        passport.authenticate('facebook'),
+        passport.authenticate('facebook', {failureRedirect: 'http://localhost:3000/login'}),
         UserRoute)
 
 const PostRoute = require('./routes/Post')
 app.use('/Post', 
-        passport.authenticate('facebook'), 
+        passport.authenticate('facebook', {failureRedirect: 'http://localhost:3000/login'}), 
         PostRoute)
 
 // Redirect the user to Facebook for authentication.  When complete,
@@ -97,13 +115,17 @@ app.get('/auth/facebook', passport.authenticate('facebook'));
 app.get('/auth/facebook/callback', 
         passport.authenticate('facebook', { successRedirect: 'http://localhost:3000', failureRedirect: 'http://localhost:3000/login' }));
 
-// connect DB with credentials
-let uri = config.db.localUri
-if (process.env.NODE_ENV === 'production') uri = config.db.serverUri
-console.log(uri)
-mongoose.connect(uri)
-.then(() => {
-    app.listen(PORT, console.log(`Server started on port ${PORT}`))
-    .on('error', err => log.info(err))
+app.get('/logout', function(req, res){
+    console.log('loggingout')
+    console.log(req.user)
+    req.logout();
+    console.log(req.user)
+    res.clearCookie('kg-api')
+    res.redirect('http://localhost:3000')
+});
+
+app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`)
 })
-.catch(err => log.info(err))
+.on('error', err => log.info(err))
+

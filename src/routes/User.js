@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
     User.find({})
     .then(users => {
         res.setHeader('Content-Type', 'application/json');
-        res.send(JSON.stringify(users))
+        res.json(users)
     })
     .catch(err => {
         console.log("error " + err)
