@@ -39,32 +39,21 @@ app.use(session(sessionOption))
 app.use(passport.initialize())
 app.use(passport.session())
 
-
-// Routes Setup
-app.use(express.static(path.join(__dirname, '../build')))
-                                      
+// Routes Setup                                      
 const UserRoute = require('./routes/User')
 app.use('/user', UserRoute)
 
 const PostRoute = require('./routes/Post')
 app.use('/post', PostRoute)
 
-app.get('/me', (req, res) => {
-    if(!req.user) {
-        res.status(403).send('not logged in')
-    }
-    res.json(req.user)
-})
-
-const auth = require('./routes/Auth')
-app.get('/auth', auth)
+const AuthRoute = require('./routes/Auth')
+app.use('/auth', AuthRoute)
 
 // TODO: ensure this is working
-app.get('/logout', function(req, res){
-    console.log('loggingout')
-    req.logout();
-    res.redirect('/')
-});
+
+
+// app.use(express.static(path.join(__dirname, '../build')))
+
 
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`)

@@ -15,6 +15,13 @@ router.get('/', (req, res) => {
     })
 })
 
+router.get('/profile', (req, res) => {
+    if(!req.user) {
+        res.status(403).send('not logged in')
+    }
+    res.json(req.user)
+})
+
 router.get('/:userId', (req, res) => {
     User.findById(req.params.userId)
     .then(theUser => {

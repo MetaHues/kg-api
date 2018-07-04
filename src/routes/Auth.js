@@ -12,4 +12,9 @@ router.get('/facebook', passport.authenticate('facebook'))
 router.get('/facebook/callback', 
         passport.authenticate('facebook', {successRedirect: '/'}))
 
-module.exports = router;
+router.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/')
+})
+
+module.exports = router
