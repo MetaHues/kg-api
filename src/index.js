@@ -60,7 +60,7 @@ const PORT = process.env.PORT || 5000
 // Passport and session setup
 // TODO: set in environmental variable not visible
 let uri = config.db.localUri
-// if (process.env.NODE_ENV === 'production') uri = config.db.serverUri
+if (process.env.NODE_ENV === 'production') uri = config.db.serverUri
 // connect DB with credentials
 mongoose.connect(uri)
 .then(console.log(`Connected to Mongoose @ ${uri}`))
