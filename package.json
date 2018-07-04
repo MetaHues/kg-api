@@ -7,7 +7,9 @@
     "test": "./node_modules/.bin/_mocha --reporter spec ./tests/**/*.js",
     "start": "node ./src/index.js",
     "start:win": "set NODE_ENV=production&&node ./src/index.js",
-    "dev": "nodemon ./src/index.js",
+    "server": "nodemon ./src/index.js",
+    "client": "cd ../kg-client && yarn start",
+    "dev": "concurrently \"--kill-others\" \"yarn server\" \"yarn client\"",
     "localhost": "docker-compose up --build"
   },
   "keywords": [],
@@ -22,6 +24,7 @@
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "heroku-ssl-redirect": "^0.0.4",
     "mongoose": "^5.0.12",
     "morgan": "^1.9.0",
     "passport": "^0.4.0",
@@ -30,6 +33,7 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "concurrently": "^3.6.0",
     "eslint": "^4.19.1",
     "mocha": "^5.1.0",
     "nock": "^9.2.5",

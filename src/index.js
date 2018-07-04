@@ -4,6 +4,7 @@ const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const log = require('./utilities').log
+const sslRedirect = require('heroku-ssl-redirect')
 const cors = require('cors')
 const passport = require('passport')
 const FacebookStrategy = require('passport-facebook').Strategy;
@@ -59,16 +60,15 @@ const PORT = process.env.PORT || 5000
 // Passport and session setup
 // TODO: set in environmental variable not visible
 let uri = config.db.localUri
-if (process.env.NODE_ENV === 'production') uri = config.db.serverUri
+// if (process.env.NODE_ENV === 'production') uri = config.db.serverUri
 // connect DB with credentials
 mongoose.connect(uri)
 .then(console.log(`Connected to Mongoose @ ${uri}`))
 .catch(err => log.info(err))
 
 const app = express()
-
-// CORS
 app.use(cors())
+app.use(sslRedirect())
 
 const options = {
     name: 'kg-api',
@@ -99,12 +99,9 @@ const PostRoute = require('./routes/Post')
 app.use('/Post', PostRoute)
 
 app.get('/me', (req, res) => {
-    console.log('in me')
-    if(!req.isAuthenticated()) {
-        console.log('redirectiong')
-        res.redirect('/auth/facebook')
+    if(!req.user) {
+        res.status(403).send('not logged in')
     }
-    console.log(req.user)
     res.json(req.user)
 })
 
@@ -116,8 +113,9 @@ app.get('/auth/facebook', passport.authenticate('facebook'));
 // authentication process by attempting to obtain an access token.  If
 // access was granted, the user will be logged in.  Otherwise,
 // authentication has failed.
+
 app.get('/auth/facebook/callback', 
-        passport.authenticate('facebook', { successRedirect: 'https://metahues-kg-api.herokuapp.com/me', failureRedirect: 'http://localhost:3000/login' }));
+        passport.authenticate('facebook', {successRedirect: '/'}))
 
 // TODO: ensure this is working
 app.get('/logout', function(req, res){
