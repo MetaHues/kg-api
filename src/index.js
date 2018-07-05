@@ -31,7 +31,8 @@ mongoose.connect(uri)
 const app = express()
 app.use(cors())                 // this is not needed if nothing else hits this api
 app.use(sslRedirect())          // auto redirect to https (heroku)
-app.use(bodyParser.json())      // parse all input as json
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 // Session setup
 const sessionOption = require('./config/session').option
@@ -41,19 +42,15 @@ app.use(passport.session())
 
 // Routes Setup                                      
 const UserRoute = require('./routes/User')
-app.use('/user', UserRoute)
+app.use('/api/user', UserRoute)
 
 const PostRoute = require('./routes/Post')
-app.use('/post', PostRoute)
+app.use('/api/post', PostRoute)
 
 const AuthRoute = require('./routes/Auth')
 app.use('/auth', AuthRoute)
 
-// TODO: ensure this is working
-
-
-// app.use(express.static(path.join(__dirname, '../build')))
-
+app.use(express.static(path.join(__dirname, '/../build')))
 
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`)
