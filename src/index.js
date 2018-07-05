@@ -27,6 +27,7 @@ mongoose.connect(uri)
 
 // App setup
 const app = express()
+app.enable("trust proxy");      // for heroku ssl validation
 app.use(cors())                 // this is not needed if nothing else hits this api
 app.use(sslRedirect())          // auto redirect to https (heroku)
 app.use(bodyParser.urlencoded({ extended: false }))
