@@ -49,7 +49,7 @@ const AuthRoute = require('./routes/Auth')
 app.use('/auth', AuthRoute)
 
 console.log(path.join(__dirname, 'build'))
-app.use(express.static(path.join(__dirname, 'build')))
+app.use('/public', express.static(path.join(__dirname, 'build')))
 
 app.use('*', (req,res) => {
     res.sendfile(path.join(__dirname, 'build', 'index.html'))

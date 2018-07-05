@@ -19,19 +19,13 @@ const UserSchema = new Schema({
 })
 User = mongoose.model('user', UserSchema)
 
-//serialize user?
 passport.serializeUser((user, done) => {
-    console.log('serializing')
-    console.log(user)
     done(null, user.facebook.id)
 })
 
 passport.deserializeUser((id, done) => {
-    console.log('deserializing')
-    console.log(id)
     User.findOne({'facebook.id': id})
     .then(existingUser => {
-        console.log(existingUser)
         done(null, existingUser)
     })
     .catch(err => {
