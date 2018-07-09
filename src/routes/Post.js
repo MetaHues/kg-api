@@ -34,8 +34,9 @@ router.post('/', (req, res) => {
     newPost.userId = req.user._id
     console.log(newPost)
     newPost.save()
-    .then(() => {
-        res.send('success')
+    .then(savedPost => {
+        console.log(savedPost)
+        res.json(savedPost)
     })
     .catch(() => {
         res.send('error')
