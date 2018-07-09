@@ -13,7 +13,7 @@ const UserSchema = new Schema({
     },
     name: String,
     img: String,
-    profileImg: String,
+    email: String,
     posts: [ObjectId],
     friends: [ObjectId]
 })

@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const mongoose = require('mongoose')
 
 // import model
 const Post = require('../models/Post')
@@ -30,6 +31,8 @@ router.get('/:postId', (req, res) => {
 
 router.post('/', (req, res) => {    
     let newPost = new Post(req.body);
+    newPost.userId = req.user._id
+    console.log(newPost)
     newPost.save()
     .then(() => {
         res.send('success')

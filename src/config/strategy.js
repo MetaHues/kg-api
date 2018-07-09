@@ -6,26 +6,27 @@ module.exports = {
     facebookStrategy: (new FacebookStrategy({
         clientID: auth.facebookAuth.id,
         clientSecret: auth.facebookAuth.secret,
-        callbackURL: auth.facebookAuth.callbackUrl
+        callbackURL: auth.facebookAuth.callbackUrl,
+        profileFields: ['id', 'displayName', 'photos', 'email']
     },
     function(accessToken, refreshToken, profile, done) {
+        console.log(`${profile} has logged in!`)
+
         User.findOne({'facebook.id': profile.id})
         .then(existingUser => {
             if(existingUser) {
-                console.log('finding existing user')
-                console.log(existingUser)
                 return done(null, existingUser)
             } else {
-                console.log('creating user')
                 new User({
                     facebook: {
                         id: profile.id,
                     },
                     name: profile.displayName,
+                    email: profile.emails[0].value,
+                    img: profile.photos[0].value
                 }) 
                 .save()
                 .then((newUser) => {
-                    console.log(newUser)
                     done(null, newUser)   
                 })
                 .catch(err => {
