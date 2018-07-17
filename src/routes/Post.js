@@ -32,6 +32,7 @@ router.get('/:postId', (req, res) => {
 router.post('/', (req, res) => {    
     let newPost = new Post(req.body);
     newPost.userId = req.user._id
+    newPost.createdAt = Date.now()
     console.log(newPost)
     newPost.save()
     .then(savedPost => {

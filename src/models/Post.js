@@ -10,7 +10,11 @@ const PostSchema = new Schema({
         video: String,
     },
     likes: Number,
-    comments: [{user: ObjectId, comment: String}]
+    comments: [{user: ObjectId, comment: String}],
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
 })
 
 module.exports = mongoose.model('post', PostSchema);
