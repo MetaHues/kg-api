@@ -10,12 +10,18 @@ module.exports = {
         profileFields: ['id', 'displayName', 'photos', 'email']
     },
     function(accessToken, refreshToken, profile, done) {
-        console.log(`${profile} has logged in!`)
 
         User.findOne({'facebook.id': profile.id})
         .then(existingUser => {
             if(existingUser) {
-                return done(null, existingUser)
+                existingUser.img = profile.photos[0].value
+                existingUser.save()
+                .then(() => {
+                    return done(null, existingUser)
+                })
+                .catch(err => {
+                    return done(err)
+                })
             } else {
                 new User({
                     facebook: {
@@ -27,15 +33,15 @@ module.exports = {
                 }) 
                 .save()
                 .then((newUser) => {
-                    done(null, newUser)   
+                    return done(null, newUser)   
                 })
                 .catch(err => {
-                    done(err)
+                    return done(err)
                 })
             }
         })
         .catch((err) => {
-            done(err)
+            return done(err)
         })
     }))
 }

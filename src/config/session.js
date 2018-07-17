@@ -5,7 +5,7 @@ const MongoStore = require('connect-mongo')(session);
 module.exports = {
     option: {
         name: 'kg-api',
-        secret: 'temp', 
+        secret: 'temp',
         resave: false, 
         saveUninitialized: false,
         store: new MongoStore({ 

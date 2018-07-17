@@ -17,7 +17,8 @@ router.get('/', (req, res) => {
 
 router.get('/profile', (req, res) => {
     if(!req.user) {
-        res.status(403).send('not logged in')
+        res.statusMessage = 'NOT_AUTHORIZED'
+        res.sendStatus(403)
     }
     res.json(req.user)
 })

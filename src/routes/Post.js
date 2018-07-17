@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
         res.send(JSON.stringify(thePosts))
     })
     .catch(err => {
-        console.log("error " + err)
+        console.log("type: 'GET' route: '/' error: " + err)
     })
 })
 
@@ -25,7 +25,7 @@ router.get('/:postId', (req, res) => {
         res.send(JSON.stringify(thePost))
     })
     .catch(err => {
-        console.log("error " + err)
+        console.log("type: 'GET' route: '/:postId' error: " + err)
     })
 })
 
@@ -39,7 +39,7 @@ router.post('/', (req, res) => {
         res.json(savedPost)
     })
     .catch(() => {
-        res.send('error')
+        res.send('type: "POST" route: "/" error')
     })
 })
 

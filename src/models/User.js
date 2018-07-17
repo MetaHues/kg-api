@@ -7,9 +7,7 @@ const ObjectId = Schema.ObjectId
 // create schema
 const UserSchema = new Schema({
     facebook: {
-        id: String,
-        token: String,
-        name: String
+        id: String
     },
     name: String,
     img: String,
