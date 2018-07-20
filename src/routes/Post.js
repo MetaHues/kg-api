@@ -29,7 +29,10 @@ router.get('/:postId', (req, res) => {
     })
 })
 
-router.post('/', (req, res) => {    
+router.post('/', (req, res) => { 
+    if(!req.isAuthenticated()) {
+        res.json({success: false, message: 'authentication failed'})
+    }
     let newPost = new Post(req.body);
     newPost.userId = req.user._id
     newPost.createdAt = Date.now()

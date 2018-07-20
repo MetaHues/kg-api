@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const ObjectId = Schema.ObjectId
 
+// TODO: rerun users to add stats to their profile
+// TODO: generate random follows
 // create schema
 const UserSchema = new Schema({
     facebook: {
@@ -12,8 +14,21 @@ const UserSchema = new Schema({
     name: String,
     img: String,
     email: String,
-    posts: [ObjectId],
-    friends: [ObjectId]
+    friends: [String],
+    counts: {
+        media: {
+            type: Number,
+            default: 0
+        },
+        follows: {
+            type: Number,
+            default: 0
+        },
+        followed_by: {
+            type: Number,
+            default: 0
+        }
+    }
 })
 User = mongoose.model('user', UserSchema)
 

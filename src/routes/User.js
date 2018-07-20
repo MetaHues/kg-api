@@ -1,4 +1,5 @@
 const router = require('express').Router()
+const passport = require('passport')
 
 // import model
 const User = require('../models/User')
@@ -46,9 +47,30 @@ router.post('/', (req, res) => {
     })
 })
 
-// temp page to update kitties
-router.get('/add', (req, res) => {
-    res.render('add')
+router.post('/friend', (req, res) => {
+    if(!req.isAuthenticated()) {
+        res.statusCode = 401
+        res.json({success: false, message: 'authentication failed'})
+        return;
+    }
+
+    let update = { $push: { friends: req.body.userId }}
+    if(req.user.friends.includes(req.body.userId)){
+        update = { $pullAll: { friends: [req.body.userId] }}
+    }
+
+    User.findOneAndUpdate(
+            {_id: req.user._id},
+            update,
+            {new: true})    // required to get updated document
+            .then(user => {
+                res.json({success: true, self: user})
+            })
+            .catch(err => {
+                console.log(err)
+                res.statusCode = 500;
+                res.json({ success:false, err: err, msg: "could not retrieve user", self: req.user})
+            })
 })
 
 module.exports = router
