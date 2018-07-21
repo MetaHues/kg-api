@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const passport = require('passport')
+const ObjectId = require('mongoose').Types.ObjectId
 
 // import model
 const User = require('../models/User')
@@ -55,6 +56,13 @@ router.post('/friend', (req, res) => {
         return;
     }
 
+    // verify userId
+    if(!req.body.userId || !ObjectId.isValid(req.body.userId)) {
+        res.statusCode = 400
+        res.json({success: false, message: 'invalid userId'})
+        return;
+    }
+
     // +1 to follower/followee
     let updateSelf = { $push: { friends: req.body.userId }, $inc: { 'counts.followees':  1}}
     let updateUser = { $inc: { 'counts.followers':  1}}
@@ -66,27 +74,29 @@ router.post('/friend', (req, res) => {
 
     // update self
     User.findOneAndUpdate(
-            {_id: req.user._id}, 
-            updateSelf,
-            {new: true})    // required to get updated document
-    .then(user => {
+            {_id: req.body.userId},
+                updateUser,
+            {new: true})
+    .then(follow => {
         // update target count
+        console.log('follow', follow)
         User.findOneAndUpdate(
-            {_id: req.userId},
-            updateUser)
+                {_id: req.user._id}, 
+                updateSelf,
+                {new: true})    // required to get updated document
         // success update both!
-        .then(() => {
-            res.json({success: true, self: user})
+        .then(self => {
+            res.json({success: true, self: self})
         })
         .catch(err => {
             res.statusCode = 500;
-            res.json({ success:false, err: err, msg: "could not retrieve user", user: req.userId})
+            res.json({ success:false, err: err, msg: "could not retrieve user", self: req.self})
         })
     })
     .catch(err => {
-        console.log(err)
+        console.log('find follower user', err)
         res.statusCode = 500;
-        res.json({ success:false, err: err, msg: "could not retrieve self", self: req.user})
+        res.json({ success:false, err: err, msg: "could not retrieve user", user: req.body.userId})
     })
 })
 
