@@ -54,9 +54,9 @@ router.post('/friend', (req, res) => {
         return;
     }
 
-    let update = { $push: { friends: req.body.userId }}
+    let update = { $push: { friends: req.body.userId }, $inc: { 'counts.followees':  1}}
     if(req.user.friends.includes(req.body.userId)){
-        update = { $pullAll: { friends: [req.body.userId] }}
+        update = { $pull: { friends: req.body.userId }, $inc: {'counts.followees': -1}}
     }
 
     User.findOneAndUpdate(

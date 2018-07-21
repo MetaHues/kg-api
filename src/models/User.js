@@ -16,15 +16,15 @@ const UserSchema = new Schema({
     email: String,
     friends: [String],
     counts: {
-        media: {
+        posts: {
             type: Number,
             default: 0
         },
-        follows: {
+        followees: {
             type: Number,
             default: 0
         },
-        followed_by: {
+        followers: {
             type: Number,
             default: 0
         }

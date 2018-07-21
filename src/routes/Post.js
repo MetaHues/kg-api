@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 
 // import model
 const Post = require('../models/Post')
+const User = require('../models/User')
 
 // api get posts ( all kitties right now )
 router.get('/', (req, res) => {
@@ -29,18 +30,35 @@ router.get('/:postId', (req, res) => {
     })
 })
 
-router.post('/', (req, res) => { 
+router.post('/', (req, res) => {
+    // require login to post
     if(!req.isAuthenticated()) {
         res.json({success: false, message: 'authentication failed'})
     }
+    // create new post
     let newPost = new Post(req.body);
     newPost.userId = req.user._id
     newPost.createdAt = Date.now()
-    console.log(newPost)
     newPost.save()
     .then(savedPost => {
-        console.log(savedPost)
-        res.json(savedPost)
+        // update user post count
+        User.findById(req.user._id)
+        .then(user => {
+            user.counts.posts += 1
+            user.save()
+            .then(
+                // likely need to send updated user info
+                res.json({post: newPost, self: user})
+            )
+            .catch(err => {
+                console.log(err)
+                res.json(err)
+            })
+        })
+        .catch(err => {
+            console.log('failed to get user', err)
+            res.json(err)
+        })
     })
     .catch(() => {
         res.send('type: "POST" route: "/" error')
