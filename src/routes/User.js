@@ -47,6 +47,7 @@ router.post('/', (req, res) => {
     })
 })
 
+// {userId: id} is passed with the user to (un)follow
 router.post('/friend', (req, res) => {
     if(!req.isAuthenticated()) {
         res.statusCode = 401
@@ -54,23 +55,39 @@ router.post('/friend', (req, res) => {
         return;
     }
 
-    let update = { $push: { friends: req.body.userId }, $inc: { 'counts.followees':  1}}
+    // +1 to follower/followee
+    let updateSelf = { $push: { friends: req.body.userId }, $inc: { 'counts.followees':  1}}
+    let updateUser = { $inc: { 'counts.followers':  1}}
+    // -1 follower/followee
     if(req.user.friends.includes(req.body.userId)){
-        update = { $pull: { friends: req.body.userId }, $inc: {'counts.followees': -1}}
+        updateSelf = { $pull: { friends: req.body.userId }, $inc: {'counts.followees': -1}}
+        updateUser = { $inc: { 'counts.followers':  -1}}
     }
 
+    // update self
     User.findOneAndUpdate(
-            {_id: req.user._id},
-            update,
+            {_id: req.user._id}, 
+            updateSelf,
             {new: true})    // required to get updated document
-            .then(user => {
-                res.json({success: true, self: user})
-            })
-            .catch(err => {
-                console.log(err)
-                res.statusCode = 500;
-                res.json({ success:false, err: err, msg: "could not retrieve user", self: req.user})
-            })
+    .then(user => {
+        // update target count
+        User.findOneAndUpdate(
+            {_id: req.userId},
+            updateUser)
+        // success update both!
+        .then(() => {
+            res.json({success: true, self: user})
+        })
+        .catch(err => {
+            res.statusCode = 500;
+            res.json({ success:false, err: err, msg: "could not retrieve user", user: req.userId})
+        })
+    })
+    .catch(err => {
+        console.log(err)
+        res.statusCode = 500;
+        res.json({ success:false, err: err, msg: "could not retrieve self", self: req.user})
+    })
 })
 
 module.exports = router
