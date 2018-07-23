@@ -14,6 +14,10 @@ const UserSchema = new Schema({
     name: String,
     img: String,
     email: String,
+    msg: {
+        type: String,
+        default: null
+    },
     friends: [String],
     counts: {
         posts: {
