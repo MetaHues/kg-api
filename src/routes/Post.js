@@ -40,16 +40,18 @@ router.post('/', (req, res) => {
     newPost.userId = req.user._id
     newPost.createdAt = Date.now()
     newPost.save()
-    .then(savedPost => {
+    .then(() => {
         // update user post count
         User.findById(req.user._id)
         .then(user => {
             user.counts.posts += 1
             user.save()
-            .then(
+            .then(() => {
                 // likely need to send updated user info
-                res.json({post: newPost, self: user})
-            )
+                let self = Object.assign({}, user._doc)
+                self.isAuthenticated = true
+                res.json({post: newPost, self: self})
+            })
             .catch(err => {
                 console.log(err)
                 res.json(err)

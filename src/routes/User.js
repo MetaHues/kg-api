@@ -1,5 +1,4 @@
 const router = require('express').Router()
-const passport = require('passport')
 const ObjectId = require('mongoose').Types.ObjectId
 
 // import model
@@ -22,10 +21,18 @@ router.get('/profile', (req, res) => {
         res.statusMessage = 'NOT_AUTHORIZED'
         res.sendStatus(403)
     }
-    res.json(req.user)
+    let self = Object.assign({}, req.user._doc)
+    self.isAuthenticated = true
+    res.json(self)
 })
 
 router.get('/:userId', (req, res) => {
+    if(!req.params.userId || !ObjectId.isValid(req.params.userId)) {
+        res.statusCode = 400
+        res.json({success: false, message: 'INVALID_USERID'})
+        return;
+    }
+
     User.findById(req.params.userId)
     .then(theUser => {
         res.setHeader('Content-Type', 'application/json');
@@ -52,14 +59,14 @@ router.post('/', (req, res) => {
 router.post('/friend', (req, res) => {
     if(!req.isAuthenticated()) {
         res.statusCode = 401
-        res.json({success: false, message: 'authentication failed'})
+        res.json({success: false, message: 'AUTHENTICATION_FAILED'})
         return;
     }
 
     // verify userId
     if(!req.body.userId || !ObjectId.isValid(req.body.userId)) {
         res.statusCode = 400
-        res.json({success: false, message: 'invalid userId'})
+        res.json({success: false, message: 'INVALID_USERID'})
         return;
     }
 
@@ -72,31 +79,31 @@ router.post('/friend', (req, res) => {
         updateUser = { $inc: { 'counts.followers':  -1}}
     }
 
-    // update self
+    // update self counts
     User.findOneAndUpdate(
             {_id: req.body.userId},
-                updateUser,
-            {new: true})
-    .then(follow => {
+                updateUser)
+    .then(() => {
         // update target count
-        console.log('follow', follow)
         User.findOneAndUpdate(
                 {_id: req.user._id}, 
                 updateSelf,
                 {new: true})    // required to get updated document
         // success update both!
-        .then(self => {
-            res.json({success: true, self: self})
+        .then(updatedSelf => {
+            let data = Object.assign({}, updatedSelf._doc)
+            data.isAuthenticated = true
+            res.json(data)
         })
         .catch(err => {
             res.statusCode = 500;
-            res.json({ success:false, err: err, msg: "could not retrieve user", self: req.self})
+            res.json({ success:false, err: err, msg: "INTERNAL_SERVER_ERROR", self: req.self})
         })
     })
     .catch(err => {
         console.log('find follower user', err)
         res.statusCode = 500;
-        res.json({ success:false, err: err, msg: "could not retrieve user", user: req.body.userId})
+        res.json({ success:false, err: err, msg: "INTERNAL_SERVER_ERROR", user: req.body.userId})
     })
 })
 
