@@ -26,8 +26,8 @@ const app = express()
 app.enable("trust proxy");      // for heroku ssl validation
 app.use(cors())                 // this is not needed if nothing else hits this api
 app.use(sslRedirect())          // auto redirect to https (heroku)
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: false }))
+app.use(bodyParser.json({ limit: '10mb' }))
 
 // Session setup
 const sessionOption = require('./config/session').option
