@@ -45,7 +45,7 @@ app.use('/auth', require('./routes/Auth'))
 app.use('/public', express.static(path.join(__dirname, 'build')))
 // Client
 app.use('*', (req,res) => {
-    res.sendfile(path.join(__dirname, 'build', 'index.html'))
+    res.sendFile(path.join(__dirname, 'build', 'index.html'))
 })
 
 // Spin up server

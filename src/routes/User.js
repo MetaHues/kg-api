@@ -17,9 +17,9 @@ router.get('/', (req, res) => {
 })
 
 router.get('/profile', (req, res) => {
-    if(!req.isAuthenticated) {
+    if(!req.isAuthenticated()) {
         res.statusMessage = 'NOT_AUTHORIZED'
-        res.sendStatus(401)
+        return res.sendStatus(401)
     }
     let self = Object.assign({}, req.user._doc)
     self.isAuthenticated = true
@@ -27,7 +27,7 @@ router.get('/profile', (req, res) => {
 })
 
 router.put('/profile', (req, res) => {
-    if(!req.isAuthenticated) {
+    if(!req.isAuthenticated()) {
         res.statusMessage = 'NOT_AUTHORIZED'
         res.sendStatus(401)
     }
