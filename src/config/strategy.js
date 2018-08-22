@@ -7,10 +7,11 @@ module.exports = {
         clientID: auth.facebookAuth.id,
         clientSecret: auth.facebookAuth.secret,
         callbackURL: auth.facebookAuth.callbackUrl,
-        profileFields: ['id', 'displayName', 'photos', 'email']
+        profileFields: ['id', 'displayName', 'email', 'picture.type(large)']
     },
     function(accessToken, refreshToken, profile, done) {
-
+        console.log('profile', profile)
+        console.log(profile.photos.data)
         User.findOne({'facebook.id': profile.id})
         .then(existingUser => {
             if(existingUser) {
