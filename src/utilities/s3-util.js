@@ -16,13 +16,10 @@ const uploadUrlToS3 = (userId, url) => {
         url: url,
         responseType:'stream'
     }
-    axios(requestOptions)
+    return axios(requestOptions)
     .then(res => {
         const params = {Bucket: process.env.AWS_BUCKET, Key: key, Body: res.data}
-        s3.upload(params, (err, data) => {
-            if(err) console.log(err)
-            else console.log('data', data)
-        })
+        return s3.upload(params).promise()
     })
 }
 

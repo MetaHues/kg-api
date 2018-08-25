@@ -32,7 +32,7 @@ module.exports = {
             user = newUser
             // upload photo to s3
             const fbProfileImgUrl = profile.photos[0].value
-            return uploadToS3(String(newUser._id), fbProfileImgUrl)
+            return uploadUrlToS3(String(newUser._id), fbProfileImgUrl)
         }).then(res => {
             user.img = res.Location
             return user.save({new: true})
