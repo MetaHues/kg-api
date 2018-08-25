@@ -1,5 +1,10 @@
 const router = require('express').Router()
 const mongoose = require('mongoose')
+const multer = require('multer')
+const multerS3 = require('multer-s3')
+const AWS = require('aws-sdk')
+const path = require('path')
+const urljoin = require('url-join')
 
 // import model
 const Post = require('../models/Post')
@@ -30,37 +35,48 @@ router.get('/:postId', (req, res) => {
     })
 })
 
-router.post('/', (req, res) => {
+//
+const s3 = new AWS.S3()
+const upload = multer({
+    storage: multerS3({
+      s3: s3,
+      bucket: 'kg.jonathanearl.io',
+      key: function (req, file, cb) {       // key = post/postid.ext
+        new Post().save().then(newPost => {
+            const key = urljoin('post', `${String(newPost._id)}${path.extname(file.originalname)}`)
+            cb(null, key)
+            req.newPost = newPost           // pass newPost to router
+        })
+      }
+    })
+})
+
+router.post('/', upload.single('imgUpload'), (req, res) => {
     // require login to post
     if(!req.isAuthenticated()) {
         res.json({success: false, message: 'authentication failed'})
     }
-    // create new post
-    let newPost = new Post(req.body);
+
+    // retrieve post from s3-multer and update
+    let newPost = req.newPost
     newPost.userId = req.user._id
-    newPost.createdAt = Date.now()
+    newPost.msg = req.body.msg
+    newPost.media.img = req.file.location
     newPost.save()
     .then(() => {
         // update user post count
-        User.findById(req.user._id)
-        .then(user => {
-            user.counts.posts += 1
-            user.save()
-            .then(() => {
-                // likely need to send updated user info
-                let self = Object.assign({}, user._doc)
-                self.isAuthenticated = true
-                res.json({post: newPost, self: self})
-            })
-            .catch(err => {
-                console.log(err)
-                res.json(err)
-            })
-        })
-        .catch(err => {
-            console.log('failed to get user', err)
-            res.json(err)
-        })
+        return User.findOneAndUpdate(
+                {'_id': req.user._id}, 
+                {'$inc': {'counts.posts': 1}}, 
+                {new: true}
+            )
+    })
+    .then(updatedUser => {
+        let self = Object.assign({}, updatedUser._doc)
+        self.isAuthenticated = true
+        console.log('self', self)
+        console.log('newPost', newPost)
+        res.json({post: newPost, self: self})
     })
     .catch(() => {
         res.send('type: "POST" route: "/" error')

@@ -29,6 +29,8 @@
     "heroku-ssl-redirect": "^0.0.4",
     "mongoose": "^5.0.12",
     "morgan": "^1.9.0",
+    "multer": "^1.3.1",
+    "multer-s3": "^2.7.0",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
     "url-join": "^4.0.0"
