@@ -12,29 +12,33 @@ module.exports = {
         profileFields: ['id', 'displayName', 'email', 'picture.type(large)']
     },
     function(accessToken, refreshToken, profile, done) {
+        let user = {}
         User.findOne({'facebook.id': profile.id})
         .then(existingUser => {
             if(existingUser) {
-                return done(null, existingUser)
-            } else {
-                new User({
-                    facebook: {
-                        id: profile.id,
-                    },
-                    name: profile.displayName,
-                    email: profile.emails[0].value,
-                }) 
-                .save()                         // save new user
-                .then(newUser => {
-                    const fbProfileImgUrl = profile.photos[0].value
-                    console.log('running uploadUrlToS3')
-                    uploadUrlToS3(String(newUser._id), fbProfileImgUrl)
-                    return done(null, newUser)  // return new user to be sent back 
-                })
-                .catch(err => {
-                    return done(err)            // pass error on
-                })
+                done(null, existingUser)
+                throw new Error('user already exists')
             }
+            // create new user
+            return new User({
+                facebook: {
+                    id: profile.id,
+                },
+                name: profile.displayName,
+                email: profile.emails[0].value,
+            }).save()                         
+        })
+        .then(newUser => {
+            user = newUser
+            // upload photo to s3
+            const fbProfileImgUrl = profile.photos[0].value
+            return uploadToS3(String(newUser._id), fbProfileImgUrl)
+        }).then(res => {
+            user.img = res.Location
+            return user.save({new: true})
+        })
+        .then(updatedUser => {
+            done(null, updatedUser)
         })
         .catch((err) => {
             return done(err)
