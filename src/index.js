@@ -26,8 +26,8 @@ const app = express()
 app.enable("trust proxy");      // for heroku ssl validation
 app.use(cors())                 // this is not needed if nothing else hits this api
 app.use(sslRedirect())          // auto redirect to https (heroku)
-app.use(bodyParser.urlencoded({ limit: '10mb', extended: false }))
-app.use(bodyParser.json({ limit: '10mb' }))
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 // Session setup
 const sessionOption = require('./config/session').option
@@ -39,12 +39,13 @@ app.use(passport.session())
 // API                                   
 app.use('/api/user', require('./routes/User'))
 app.use('/api/post', require('./routes/Post'))
+app.use('/api/comment', require('./routes/Comment'))
 // Auth
 app.use('/auth', require('./routes/Auth'))
 // Client Files
 app.use('/public', express.static(path.join(__dirname, 'build')))
 // Client
-app.use('*', (req,res) => {
+app.use('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'))
 })
 
