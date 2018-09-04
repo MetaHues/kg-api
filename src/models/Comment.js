@@ -22,7 +22,7 @@ const CommentSchema = new Schema({
         type: String,
         required: true,
     },
-    replyCount: {               // number of subcomments
+replyCount: {               // number of subcomments
         type: Number,
         default: 0,
     },
