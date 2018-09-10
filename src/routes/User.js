@@ -71,18 +71,19 @@ router.get('/:userId', (req, res) => {
     })
 })
 
-router.post('/', (req, res) => {
-    let newUser = new User(req.body);
-    newUser.save()
-    .then(createdUser => {
-        res.json({success: false, user: createdUser})
-    })
-    .catch(() => {
-        res.statusCode = 500
-        console.log("error " + err)
-        res.json({success: false, message: 'INTERNAL_ERROR'})
-    })
-})
+// User should not be created through directly through API
+// router.post('/', (req, res) => {
+//     let newUser = new User(req.body);
+//     newUser.save()
+//     .then(createdUser => {
+//         res.json({success: false, user: createdUser})
+//     })
+//     .catch(() => {
+//         res.statusCode = 500
+//         console.log("error " + err)
+//         res.json({success: false, message: 'INTERNAL_ERROR'})
+//     })
+// })
 
 // {userId: id} is passed with the user to (un)follow
 router.post('/friend', (req, res) => {

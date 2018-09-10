@@ -21,6 +21,7 @@ router.get('/', (req, res) => {
     })
     .catch(err => {
         console.log("type: 'GET' route: '/' error: " + err)
+        res.sendStatus(500)
     })
 })
 
@@ -32,6 +33,7 @@ router.get('/:postId', (req, res) => {
     })
     .catch(err => {
         console.log("type: 'GET' route: '/:postId' error: " + err)
+        res.sendStatus(500)
     })
 })
 
@@ -46,6 +48,9 @@ const upload = multer({
             const key = urljoin('post', `${String(newPost._id)}${path.extname(file.originalname)}`)
             cb(null, key)
             req.newPost = newPost           // pass newPost to router
+        }).catch(err => {
+            // how to handle error?
+            cb(err)
         })
       }
     })
@@ -74,8 +79,6 @@ router.post('/', upload.single('imgUpload'), (req, res) => {
     .then(updatedUser => {
         let self = Object.assign({}, updatedUser._doc)
         self.isAuthenticated = true
-        console.log('self', self)
-        console.log('newPost', newPost)
         res.json({post: newPost, self: self})
     })
     .catch(() => {
