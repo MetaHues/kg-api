@@ -9,7 +9,6 @@ const PostSchema = new Schema({
         img: String,
         video: String,
     },
-    likes: [{userId: ObjectId, userName: String}],
     likeCount: {
         type: Number,
         default: 0
