@@ -40,6 +40,7 @@ app.use(passport.session())
 app.use('/api/user', require('./routes/User'))
 app.use('/api/post', require('./routes/Post'))
 app.use('/api/comment', require('./routes/Comment'))
+app.use('/api/like', require('./routes/Like'))
 // Auth
 app.use('/auth', require('./routes/Auth'))
 // Client Files
