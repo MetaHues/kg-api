@@ -14,7 +14,9 @@ const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost/kg'
 
 // Strategies
 const FacebookStrategy = require('./passport/facebook')
+const GoogleStrategy = require('./passport/google')
 passport.use(FacebookStrategy)
+passport.use(GoogleStrategy)
 
 // Passport and session setup
 mongoose.connect(MONGO_URI)
@@ -30,7 +32,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // Session setup
-const sessionOption = require('./config/session').option
+const sessionOption = require('./passport/session').option
 app.use(session(sessionOption))
 app.use(passport.initialize())
 app.use(passport.session())
