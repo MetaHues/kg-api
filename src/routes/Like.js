@@ -24,7 +24,6 @@ router.post('/:postId', (req, res) => {
         return Post.findOneAndUpdate({_id: req.params.postId}, {$inc:{likeCount: 1}}, {new: true})
     })
     .then((post) => {
-        console.log('newlike', newLike)
         res.json({success: true, post, like: newLike})
     })
     .catch(err => {
