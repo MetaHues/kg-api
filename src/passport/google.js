@@ -1,20 +1,19 @@
-const FacebookStrategy = require('passport-facebook').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+
 const User = require('../models/User')
 const { uploadUrlToS3 } = require('../utilities/s3-util')
 require('dotenv').config()
 
-module.exports = new FacebookStrategy(
+module.exports = new GoogleStrategy(
     {
-        clientID: process.env.FB_ID,
-        clientSecret: process.env.FB_SECRET,
-        callbackURL: process.env.FB_CALLBACK,
-        profileFields: ['id', 'displayName', 'email', 'picture.type(large)']
+        clientID: process.env.GOOGLE_ID,
+        clientSecret: process.env.GOOGLE_SECRET,
+        callbackURL: process.env.GOOGLE_CALLBACK,
     },
 
     async (accessToken, refreshToken, profile, done) => {
-
+        console.log(profile)
         try {
-            // use $or in order to search multiple properties
             let existingUser = await User.findOne({'email': profile.emails[0].value})
             if(existingUser) {
                 // return user
@@ -22,7 +21,7 @@ module.exports = new FacebookStrategy(
             }
             // create new user
             let newUser = await User({
-                facebook: {
+                google: {
                     id: profile.id,
                 },
                 name: profile.displayName,
@@ -30,7 +29,8 @@ module.exports = new FacebookStrategy(
             }).save({new: true})
             
             // upload photo to s3
-            const fbProfileImgUrl = profile.photos[0].value
+            let fbProfileImgUrl = profile.photos[0].value
+            fbProfileImgUrl = fbProfileImgUrl.substring(0, fbProfileImgUrl.length - 2) + '250'
             let res = await uploadUrlToS3(String(newUser._id), fbProfileImgUrl)
             
             // save photo location
