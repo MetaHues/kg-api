@@ -9,7 +9,10 @@ const PostSchema = new Schema({
         img: String,
         video: String,
     },
-    likes: Number,
+    likeCount: {
+        type: Number,
+        default: 0
+    },
     comments: [{user: ObjectId, comment: String}],
     createdAt: {
         type: Date,

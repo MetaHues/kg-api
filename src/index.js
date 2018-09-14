@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost/kg'
 
 // Strategies
-const FacebookStrategy = require('./config/strategy').facebookStrategy
+const FacebookStrategy = require('./passport/facebook')
 passport.use(FacebookStrategy)
 
 // Passport and session setup
@@ -40,6 +40,7 @@ app.use(passport.session())
 app.use('/api/user', require('./routes/User'))
 app.use('/api/post', require('./routes/Post'))
 app.use('/api/comment', require('./routes/Comment'))
+app.use('/api/like', require('./routes/Like'))
 // Auth
 app.use('/auth', require('./routes/Auth'))
 // Client Files
