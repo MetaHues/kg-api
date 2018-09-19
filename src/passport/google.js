@@ -12,7 +12,6 @@ module.exports = new GoogleStrategy(
     },
 
     async (accessToken, refreshToken, profile, done) => {
-        console.log(profile)
         try {
             let existingUser = await User.findOne({'email': profile.emails[0].value})
             if(existingUser) {
