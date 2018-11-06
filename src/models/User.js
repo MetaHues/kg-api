@@ -37,11 +37,11 @@ const UserSchema = new Schema({
 User = mongoose.model('user', UserSchema)
 
 passport.serializeUser((user, done) => {
-    done(null, user.facebook.id)
+    done(null, user._id)
 })
 
 passport.deserializeUser((id, done) => {
-    User.findOne({'facebook.id': id})
+    User.findOne({_id: id})
     .then(existingUser => {
         done(null, existingUser)
     })

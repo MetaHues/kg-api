@@ -22,11 +22,15 @@ const CommentSchema = new Schema({
         type: String,
         required: true,
     },
-replyCount: {               // number of subcomments
+    replyCount: {               // number of subcomments
         type: Number,
         default: 0,
     },
-    date: {
+    postOwnerId: {
+        type: ObjectId,
+        required: true,
+    },
+    createdAt: {
         type: Date,
         default: Date.now
     },

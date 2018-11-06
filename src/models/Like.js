@@ -11,10 +11,14 @@ const LikeSchema = new Schema({
         type: ObjectId,
         required: true,
     },
-    likedAt: {
+    postOwnerId: {
+        type: ObjectId,
+        required: true,
+    },
+    createdAt: {
         type: Date,
         default: Date.now
-    }
+    },
 })
 
 LikeSchema.index({userId: 1, postId: 1}, {unique: true})

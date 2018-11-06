@@ -1,24 +1,29 @@
 const mongoose = require('mongoose')
 const router = require('express').Router()
-const Comment = require('../models/Comment')
 const ObjectId = mongoose.Types.ObjectId
 
-router.get('/:postId', (req, res, next) => {
+// Models
+const Comment = require('../models/Comment')
+const Post = require('../models/Post')
+
+router.get('/:postId', async(req, res, next) => {
     const postId = req.params.postId;
-    if(!mongoose.Types.ObjectId.isValid(postId)) return res.sendStatus(400)
-    Comment.find({postId: postId})
-    .then(comments => {
+    if(!mongoose.Types.ObjectId.isValid(postId)) {
+        return res.status(400).json({success: false, err: 'INVALID_POSTID'})
+    }
+
+    try {
+        let comments = await Comment.find({postId: postId})
         return res.json(comments)
-    }).catch(err => {
+    } catch(err) {
         console.log(err)
-        return res.sendStatus(500)
-    })
+        return res.status(500).json({success: false, err})
+    }
 })
 
-router.post('/', (req, res, next) => {
+router.post('/', async(req, res, next) => {
     if(!req.isAuthenticated()) return res.sendStatus(404)
-    console.log(req.body)
-    console.log(req.body.postId)
+
     const commentData = {
         userId: req.user._id, 
         userName: req.user.name, 
@@ -26,16 +31,24 @@ router.post('/', (req, res, next) => {
         parentCommentId: req.body.parentCommentId,
         msg: req.body.msg,
     }
-    console.log(commentData)
 
-    let newComment = new Comment(commentData)
-    newComment.save({new: true})
-    .then(comment => {
-        return res.json([comment])
-    }).catch(err => {
+    // get owner of post and attach to comment
+    try {
+        let thePost = await Post.findById(commentData.postId)
+        commentData.postOwnerId = thePost.userId
+    } catch (err) {
+        console.log(err)
+        return res.statusCode(401).json({success: false, err})
+    }
+
+    // create comment and return to user
+    try {
+        let newComment = await (new Comment(commentData).save({new: true}))
+        return res.json([newComment])
+    } catch (err) {
         console.log(err)
         return res.sendStatus(500)
-    })
+    }
 })
 
 module.exports = router
